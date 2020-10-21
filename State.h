@@ -14,8 +14,20 @@ private:
     State* parent;
     std::vector<State*> children;
 
+private:
+    void copy_objects_lake(lily*);
+    void copy_lake_to_object(const lily*);
+    bool compare_lakes(lily*);
+    void empty_lake();
+    void clear_state();
+    void copy_state(const State&);
+
 public:
+    State();
     State(lily*, State*);
+    State(const State&);
+    State& operator=(const State&);
+    ~State();
 
     void generate_states();
     void generate_state_space();

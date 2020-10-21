@@ -1,14 +1,20 @@
 #include "State.h"
 
-void copy_lake(lily* lake, lily* copy) {
+void State::copy_objects_lake(lily* lake) {
     for (int i = 0; i < 5; ++i) {
-        copy[i] = lake[i];
+        lake[i] = this->lake[i];
     }
 }
 
-bool compare_lakes(lily* first_lake, lily* second_lake) {
+void State::copy_lake_to_object(const lily* lake) {
     for (int i = 0; i < 5; ++i) {
-        if (first_lake[i] != second_lake[i]) {
+        this->lake[i] = lake[i];
+    }
+}
+
+bool State::compare_lakes(lily* lake) {
+    for (int i = 0; i < 5; ++i) {
+        if (this->lake[i] != lake[i]) {
             return 0;
         }
     }
@@ -16,12 +22,51 @@ bool compare_lakes(lily* first_lake, lily* second_lake) {
     return 1;
 }
 
-State::State(lily* lake, State* parent) {
+void State::empty_lake() {
     for (int i = 0; i < 5; ++i) {
-        this->lake[i] = lake[i];
+        this->lake[i] = EMPTY;
+    }
+}
+
+void State::clear_state() {
+    std::vector<State*>::iterator it;
+    for (it = this->children.begin(); it != this->children.end(); ++it) {
+        delete *it;
+    }
+}
+
+void State::copy_state(const State& state) {
+    this->copy_lake_to_object((&state)->lake);
+    this->parent = (&state)->parent;
+    // this->copy_children(state->children);
+    this->children = (&state)->children;
+}
+
+State::State() {
+    this->empty_lake();
+    this->parent = nullptr;
+}
+
+State::State(lily* lake, State* parent) : State() {
+    this->copy_lake_to_object(lake);
+    this->parent = parent;
+}
+
+State::State(const State& state) : State() {
+    this->copy_state(state);
+}
+
+State& State::operator=(const State& state) {
+    if (this != &state) {
+        this->clear_state();
+        this->copy_state(state);
     }
 
-    this->parent = parent;
+    return *this;
+}
+
+State::~State() {
+    this->clear_state();
 }
 
 void State::generate_states() {
@@ -29,7 +74,7 @@ void State::generate_states() {
         if (this->lake[i] == RIGHT) {
             State* new_state = nullptr;
             lily new_lake[5];
-            copy_lake(this->lake, new_lake);
+            this->copy_objects_lake(new_lake);
 
             bool generated_state = move_two_right(i, new_lake);
 
@@ -38,7 +83,7 @@ void State::generate_states() {
                 this->children.push_back(new_state);
             }
 
-            copy_lake(this->lake, new_lake);
+            this->copy_objects_lake(new_lake);
             generated_state = move_one_right(i, new_lake);
             if (generated_state) {
                 new_state = new State(new_lake, this);
@@ -48,7 +93,7 @@ void State::generate_states() {
         else if (this->lake[i] == LEFT) {
             State* new_state = nullptr;
             lily new_lake[5];
-            copy_lake(this->lake, new_lake);
+            this->copy_objects_lake(new_lake);
 
             bool generated_state = move_two_left(i, new_lake);
 
@@ -57,7 +102,7 @@ void State::generate_states() {
                 this->children.push_back(new_state);
             }
 
-            copy_lake(this->lake, new_lake);
+            this->copy_objects_lake(new_lake);
             generated_state = move_one_left(i, new_lake);
             if (generated_state) {
                 new_state = new State(new_lake, this);
@@ -202,7 +247,7 @@ State* State::find_result(lily* goal) {
         State* current = to_visit.top();
         to_visit.pop();
 
-        if (compare_lakes(current->lake, goal)) {
+        if (current->compare_lakes(goal)) {
             return current;
         }
 
