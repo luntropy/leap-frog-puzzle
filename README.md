@@ -1,1 +1,1 @@
-# frog-leap-puzzle
+# Leap Frog Puzzle
