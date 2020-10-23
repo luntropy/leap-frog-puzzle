@@ -11,7 +11,7 @@ The program creates a space of all possible movements of the frogs based of the 
 - On the last line in the Goal state
 - The states in between them are the movements that lead to the given Goal
 
-## Frogs representation in the program
+### Frogs representation in the program
 - The number 2 represents the left set of frogs
 - The number 1 represents the right set of frogs
 
