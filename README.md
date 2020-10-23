@@ -3,14 +3,15 @@
 The program creates a space of all possible movements of the frogs based of the given rules and then using the algorithm Depth-first search to find the solution.
 
 ### To run the program
-- Build it using 'make'
-- Run './main'
+- Build it using `make`
+- Run `./main`
 
 ### Output
 - On the first line is the Start state
 - On the last line in the Goal state
 - The states in between them are the movements that lead to the given Goal
 
+## Frogs representation in the program
 - The number 2 represents the left set of frogs
 - The number 1 represents the right set of frogs
 
