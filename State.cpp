@@ -170,7 +170,7 @@ State* State::find_result(lily* goal) {
 
     while (!to_visit.empty()) {
         State* current = to_visit.top();
-        to_visit.pop();
+        visited.push_back(current);
 
         if (current->compare_lakes(goal)) {
             return current;
@@ -180,8 +180,19 @@ State* State::find_result(lily* goal) {
             std::vector<State*>::iterator it;
 
             for (it = current->children.begin(); it != current->children.end(); ++it) {
-                to_visit.push(*it);
+                std::vector<State*>::iterator is_visited = std::find(visited.begin(), visited.end(), *it);
+                if (is_visited == visited.end()) {
+                    to_visit.push(*it);
+                    break;
+                }
             }
+
+            if (it == current->children.end()) {
+                to_visit.pop();
+            }
+        }
+        else {
+            to_visit.pop();
         }
     }
 

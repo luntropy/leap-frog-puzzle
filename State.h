@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <stack>
+#include <algorithm>
 
 #ifndef STATE_H
 #define STATE_H
