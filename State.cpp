@@ -264,6 +264,9 @@ void State::print_result_path(lily* goal) {
             current->print_lake();
         }
     }
+    else {
+        std::cout << "Result not found" << std::endl;
+    }
 }
 
 void State::print_lake() {
