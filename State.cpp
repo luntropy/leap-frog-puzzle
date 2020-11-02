@@ -206,12 +206,12 @@ State::State() {
     this->parent = nullptr;
 }
 
-State::State(lily* lake, State* parent) : State() {
+State::State(lily* lake, State* parent) {
     this->copy_lake_to_object(lake);
     this->parent = parent;
 }
 
-State::State(const State& state) : State() {
+State::State(const State& state) {
     this->copy_state(state);
 }
 
