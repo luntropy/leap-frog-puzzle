@@ -22,7 +22,7 @@ The puzzle is solved when the two sets of frogs switch their positions.
 ### Play the game (by Shaun Carter) [Play](https://primefactorisation.com/frogpuzzle/)
 
 ## About the program
-The program creates a space of all possible movements of the frogs based of the given rules and then using the algorithm Depth-first search to find the solution.
+The program creates a space of all possible movements of the frogs based of the given rules and then using the algorithm **Depth-first search** to find the solution.
 The current lake finds the solution for a lake with 4 frogs and 5 lilies.
 
 ### To run the program
